@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { Exception, UserExistsException } from 'src/exceptions';
 import { LoginDto, UserDocument, UserDto, VerificationDto } from './user';
 import { UserService } from './user.service';
@@ -14,18 +14,14 @@ export class UserController {
     }
 
     @Post()
-    async createUser(@Body() userDto: UserDto): Promise<UserDocument | Exception> {
+    async createUser(@Body() userDto: UserDto): Promise<UserDocument> {
         let isExistingUser = await this.userService.checkUserExistsByEmail(userDto.email);
         
         if (isExistingUser) {
-            return UserExistsException;
+            throw new HttpException('Email already exists please sign in', HttpStatus.BAD_REQUEST);
         }
-
-        let newUser = await this.userService.createNewUser(userDto);
         
-        await this.userService.sendVerificationEmail(userDto.email);
-
-        return newUser;
+        return await this.userService.createNewUser(userDto);
     }
 
     @Post('login')
@@ -38,6 +34,8 @@ export class UserController {
         return await this.userService.verifyUser(verificationDto);
     }
 
+    @Post('verificaiton-code')
+    async getVerificationCode(){} 
 
 }
  

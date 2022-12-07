@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LoginDto, User, UserDocument, UserDto, Verification, VerificationDto, VerificationType } from './user';
@@ -8,10 +8,13 @@ import { Exception, NoUserException, NoVerificationCodes, VerificationCodeExpire
 
 @Injectable()
 export class UserService {
+
+    logger = new Logger('UserService');
     
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-    ) {}
+    ) {
+    }
 
     async checkUserExistsByEmail(email: string): Promise<boolean> {
         const user = await this.userModel.findOne({ email });
@@ -42,6 +45,7 @@ export class UserService {
     }
 
     async createNewUser({ firstName, lastName, email, password}: UserDto): Promise<UserDocument> {
+        this.logger.log(`Creating new user with first name: ${firstName}, last name: ${lastName}, email: ${email}`)
         const passwordHash = await this.generatePasswordHash(password);
         const userModel = new this.userModel({
             firstName: firstName,
