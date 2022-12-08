@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { Exception, UserExistsException } from 'src/exceptions';
-import { LoginDto, UserDocument, UserDto, VerificationDto } from './user';
+import { GetVerificationDto, LoginDto, UserDocument, UserDto } from './user';
 import { UserService } from './user.service';
+import { VerificationDto } from '../verification/verification';
 
 @Controller('user')
 export class UserController {
@@ -10,7 +11,7 @@ export class UserController {
     
     @Get()
     async getUser(){
-        await this.userService.sendVerificationEmail('collinkleest@gmail.com');
+        await this.userService.testMethod();
     }
 
     @Post()
@@ -35,7 +36,9 @@ export class UserController {
     }
 
     @Post('verificaiton-code')
-    async getVerificationCode(){} 
+    async getVerificationCode(@Body() getVerificationDto: GetVerificationDto){
+        return await this.userService.sendVerificationEmail(getVerificationDto.email);;
+    } 
 
 }
  

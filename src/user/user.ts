@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { IsEmail, IsEnum, IsNotEmpty, IsNumber, MaxLength } from 'class-validator';
+import { Verification } from "../verification/verification";
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -36,26 +37,10 @@ export class LoginDto {
 
 }
 
-export enum VerificationType {
-    REGISTRATION = 'registration',
-    RESET = 'reset'
-}
 
-export interface Verification {
-    type: VerificationType;
-    timestamp: number;
-    code: number;
-}
 
-export class VerificationDto {
-
-    @IsNotEmpty()
-    @IsNumber()
-    code: number;
-
-    @IsEnum(VerificationType)
-    type: VerificationType;
-
+export class GetVerificationDto {
+    
     @IsNotEmpty()
     @IsEmail()
     email: string;
@@ -65,20 +50,22 @@ export class VerificationDto {
 @Schema()
 export class User {
 
+    _id: mongoose.Types.ObjectId;
+
     @Prop({ required: true })
     firstName: string;
 
     @Prop({ required: true })
     lastName: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true })
     email: string;
 
     @Prop({ required: true })
     password: string;
 
-    @Prop({ required: false })
-    verifications: Verification[];
+    @Prop({ type: Verification, required: false })
+    verification: Verification;
 
     @Prop({ default: false })
     active: boolean;
