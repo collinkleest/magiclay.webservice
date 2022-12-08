@@ -1,5 +1,5 @@
 export interface Exception {
-    statusCode: number;
-    message: string[];
-    error: string;
+  statusCode: number;
+  message: string[];
+  error: string;
 }

@@ -9,7 +9,9 @@ import { VerificationModule } from './verification/verification.module';
 
 @Module({
   imports: [
-    UserModule, MongooseModule.forRoot('mongodb://localhost/magiclay'), VerificationModule
+    UserModule,
+    MongooseModule.forRoot('mongodb://localhost/magiclay'),
+    VerificationModule,
   ],
   controllers: [AppController, VerificationController],
   providers: [AppService, VerificationService],

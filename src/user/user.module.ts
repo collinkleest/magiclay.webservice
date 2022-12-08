@@ -6,11 +6,13 @@ import { UserService } from './user.service';
 import { Verification, VerificationSchema } from '../verification/verification';
 
 @Module({
-    imports: [
-      MongooseModule.forFeature([{ name: User.name, schema: UserSchema }, 
-        {name: Verification.name, schema: VerificationSchema}])
-    ],
-    controllers: [UserController],
-    providers: [UserService],
-  })
+  imports: [
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Verification.name, schema: VerificationSchema },
+    ]),
+  ],
+  controllers: [UserController],
+  providers: [UserService],
+})
 export class UserModule {}
