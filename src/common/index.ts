@@ -1,7 +1,7 @@
-import { HttpStatus } from "@nestjs/common";
+import { HttpStatus } from '@nestjs/common'
 
 export interface IMessage {
-    message: string;
-    status: HttpStatus;
-    token?: string;
+  message: string
+  status: HttpStatus
+  token?: string
 }

@@ -1,7 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { IsEmail, IsNotEmpty } from 'class-validator';
-import { GenerateVerificationDto, VerificationDto } from './verification';
-import { VerificationService } from './verification.service';
+import { Body, Controller, Post } from '@nestjs/common'
+import { IsEmail, IsNotEmpty } from 'class-validator'
+import { GenerateVerificationDto, VerificationDto } from './verification'
+import { VerificationService } from './verification.service'
 
 @Controller('verification')
 export class VerificationController {
@@ -9,12 +9,11 @@ export class VerificationController {
 
   @Post('generate-code')
   async generateCode(@Body() { email }: GenerateVerificationDto) {
-    return this.verificationService.sendVerificationEmail(email);
+    return this.verificationService.sendVerificationEmail(email)
   }
 
   @Post('verify')
   async verify(@Body() verificationDto: VerificationDto) {
-    return await this.verificationService.verifyUser(verificationDto);
+    return await this.verificationService.verifyUser(verificationDto)
   }
-  
 }

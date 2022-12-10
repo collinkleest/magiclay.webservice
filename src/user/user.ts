@@ -1,67 +1,67 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import mongoose, { HydratedDocument } from 'mongoose'
 import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
   IsNumber,
-  MaxLength,
-} from 'class-validator';
-import { Verification } from '../verification/verification';
+  MaxLength
+} from 'class-validator'
+import { Verification } from '../verification/verification'
 
-export type UserDocument = HydratedDocument<User>;
+export type UserDocument = HydratedDocument<User>
 
 export class UserDto {
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  email: string
 
   @IsNotEmpty()
   @MaxLength(16)
-  password: string;
+  password: string
 
   @IsNotEmpty()
   @MaxLength(35)
-  firstName: string;
+  firstName: string
 
   @IsNotEmpty()
   @MaxLength(35)
-  lastName: string;
+  lastName: string
 }
 
 export class GetVerificationDto {
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  email: string
 }
 
 @Schema()
 export class User {
-  _id: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId
 
   @Prop({ required: true })
-  firstName: string;
+  firstName: string
 
   @Prop({ required: true })
-  lastName: string;
+  lastName: string
 
   @Prop({ required: true, unique: true })
-  email: string;
+  email: string
 
   @Prop({ required: true })
-  password: string;
+  password: string
 
   @Prop({ type: Verification, required: false })
-  verification: Verification;
+  verification: Verification
 
   @Prop({ default: false })
-  active: boolean;
+  active: boolean
 
   @Prop({ required: false, immutable: true })
-  createdTimestamp: number;
+  createdTimestamp: number
 
   @Prop({ required: false })
-  lastLogin: number;
+  lastLogin: number
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(User)

@@ -1,22 +1,22 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { VerificationController } from './verification/verification.controller';
-import { VerificationService } from './verification/verification.service';
-import { VerificationModule } from './verification/verification.module';
-import { AuthController } from './auth/auth.controller';
-import { AuthModule } from './auth/auth.module';
+import { Module } from '@nestjs/common'
+import { MongooseModule } from '@nestjs/mongoose'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { UserModule } from './user/user.module'
+import { VerificationController } from './verification/verification.controller'
+import { VerificationService } from './verification/verification.service'
+import { VerificationModule } from './verification/verification.module'
+import { AuthController } from './auth/auth.controller'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
   imports: [
     UserModule,
     MongooseModule.forRoot('mongodb://localhost/magiclay'),
     VerificationModule,
-    AuthModule,
+    AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}
