@@ -29,16 +29,6 @@ export class UserDto {
   lastName: string;
 }
 
-export class LoginDto {
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  @MaxLength(16)
-  password: string;
-}
-
 export class GetVerificationDto {
   @IsNotEmpty()
   @IsEmail()

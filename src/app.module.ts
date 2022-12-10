@@ -6,14 +6,17 @@ import { UserModule } from './user/user.module';
 import { VerificationController } from './verification/verification.controller';
 import { VerificationService } from './verification/verification.service';
 import { VerificationModule } from './verification/verification.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     UserModule,
     MongooseModule.forRoot('mongodb://localhost/magiclay'),
     VerificationModule,
+    AuthModule,
   ],
-  controllers: [AppController, VerificationController],
-  providers: [AppService, VerificationService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

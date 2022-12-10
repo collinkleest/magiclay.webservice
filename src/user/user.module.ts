@@ -9,7 +9,6 @@ import { Verification, VerificationSchema } from '../verification/verification';
   imports: [
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: Verification.name, schema: VerificationSchema },
     ]),
   ],
   controllers: [UserController],
