@@ -31,6 +31,12 @@ export class AuthService {
     return await bcrypt.compare(password, hash)
   }
 
+  private attachRefreshToken(res: Response, refreshToken: string): void {
+    res.cookie('jid', refreshToken, {
+      httpOnly: true
+    })
+  }
+
   private getAccessToken(email: string, userId: string): string {
     return jwt.sign(
       {
@@ -56,6 +62,25 @@ export class AuthService {
         expiresIn: process.env.REFRESH_EXPIRATION_TIME
       }
     )
+  }
+
+  async refresh(jid: string, res: Response): Promise<LoginResponse> {
+    try {
+      const payload: any = jwt.verify(jid, process.env.REFRESH_JWT_SECRET)
+      const user = await this.userService.getUserById(payload.userId)
+      const accessToken = this.getAccessToken(user.email, user.id)
+      const refreshToken = this.getRefreshToken(user.id)
+      this.attachRefreshToken(res, refreshToken)
+      return {
+        token: accessToken
+      }
+    } catch (error) {
+      this.logger.error(`There was an error verifying refresh token ${error}`)
+      throw new HttpException(
+        `Error validating token: ${error}`,
+        HttpStatus.UNAUTHORIZED
+      )
+    }
   }
 
   private async resetPassDeleteVerification(
@@ -160,9 +185,7 @@ export class AuthService {
         })
         const accessToken = this.getAccessToken(user.email, user.id)
         const refreshToken = this.getRefreshToken(user.id)
-        res.cookie('jid', refreshToken, {
-          httpOnly: true
-        })
+        this.attachRefreshToken(res, refreshToken)
         return {
           token: accessToken
         }

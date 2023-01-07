@@ -3,8 +3,7 @@ import {
   HttpStatus,
   Injectable,
   Logger,
-  NestMiddleware,
-  UnauthorizedException
+  NestMiddleware
 } from '@nestjs/common'
 import * as jwt from 'jsonwebtoken'
 

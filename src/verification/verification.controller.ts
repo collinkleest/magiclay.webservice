@@ -1,6 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common'
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
-import { IsEmail, IsNotEmpty } from 'class-validator'
 import { Message } from 'src/common'
 import { GenerateVerificationDto, VerificationDto } from './verification'
 import { VerificationService } from './verification.service'
