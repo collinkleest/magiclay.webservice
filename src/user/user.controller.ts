@@ -1,13 +1,16 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Logger,
-  Post
+  Post,
+  Req
 } from '@nestjs/common'
+import { Request } from 'express'
 import { IMessage } from 'src/common'
-import { UserDto } from './user'
+import { IUserDetails, UserDto } from './user'
 import { UserService } from './user.service'
 
 @Controller('user')
@@ -15,6 +18,11 @@ export class UserController {
   private logger = new Logger('UserService')
 
   constructor(private userService: UserService) {}
+
+  @Get('details')
+  getUserDetails(@Req() request: Request): Promise<IUserDetails> {
+    return this.userService.getUserDetails(request.body.userId)
+  }
 
   @Post()
   async createUser(@Body() userDto: UserDto): Promise<IMessage> {

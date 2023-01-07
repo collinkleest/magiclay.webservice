@@ -8,6 +8,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport'
 import { IMessage } from 'src/common'
 import { UserDocument } from 'src/user/user'
 import { UserService } from 'src/user/user.service'
+import { isTimestampExpired } from 'src/utils'
 import {
   Verification,
   VerificationDocument,
@@ -32,7 +33,7 @@ export class VerificationService {
           userId: user.id
         })
         if (verification.code === code) {
-          if (!this.isTimestampExpired(verification.timestamp)) {
+          if (!isTimestampExpired(verification.timestamp)) {
             await this.confirmEmail(user, verification)
             this.logger.log(`Successfully verified email: ${email}`)
             return {
@@ -121,10 +122,6 @@ export class VerificationService {
         HttpStatus.INTERNAL_SERVER_ERROR
       )
     }
-  }
-
-  private isTimestampExpired(timestamp: number): boolean {
-    return Date.now() >= timestamp
   }
 
   private getNodemailerTransport(): Transporter<SMTPTransport.SentMessageInfo> {

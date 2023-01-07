@@ -1,29 +1,37 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import mongoose, { HydratedDocument } from 'mongoose'
-import {
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  MaxLength
-} from 'class-validator'
+import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator'
 import { Verification } from '../verification/verification'
+import { ApiProperty } from '@nestjs/swagger'
 
 export type UserDocument = HydratedDocument<User>
 
+export interface IUserDetails {
+  firstName: string
+  lastName: string
+  email: string
+  createdTimestamp: number
+  lastLoginTimestamp: number
+}
+
 export class UserDto {
+  @ApiProperty()
   @IsNotEmpty()
   @IsEmail()
   email: string
 
+  @ApiProperty({ minLength: 8, maxLength: 16 })
   @IsNotEmpty()
+  @MinLength(8)
   @MaxLength(16)
   password: string
 
+  @ApiProperty({ maxLength: 35 })
   @IsNotEmpty()
   @MaxLength(35)
   firstName: string
 
+  @ApiProperty({ maxLength: 35 })
   @IsNotEmpty()
   @MaxLength(35)
   lastName: string
