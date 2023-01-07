@@ -5,7 +5,7 @@ import * as nodemailer from 'nodemailer'
 import { Transporter } from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
 import SMTPTransport from 'nodemailer/lib/smtp-transport'
-import { IMessage } from 'src/common'
+import { Message } from 'src/common'
 import { UserDocument } from 'src/user/user'
 import { UserService } from 'src/user/user.service'
 import { isTimestampExpired } from 'src/utils'
@@ -25,7 +25,7 @@ export class VerificationService {
     private userService: UserService
   ) {}
 
-  async verifyUser({ code, email }: VerificationDto): Promise<IMessage> {
+  async verifyUser({ code, email }: VerificationDto): Promise<Message> {
     try {
       const user = await this.userService.getUserByEmail(email)
       try {
@@ -39,7 +39,7 @@ export class VerificationService {
             return {
               message: 'Verification successful',
               status: HttpStatus.CREATED
-            } as IMessage
+            } as Message
           } else {
             this.logger.error(
               `Verification error for email: ${email}, code has expired`
@@ -69,7 +69,7 @@ export class VerificationService {
     code: number,
     timestamp: number,
     email: string
-  ): Promise<IMessage> {
+  ): Promise<Message> {
     try {
       const user = await this.userService.getUserByEmail(email)
       try {
@@ -144,7 +144,7 @@ export class VerificationService {
     }
   }
 
-  async sendVerificationEmail(emailAddress: string): Promise<IMessage> {
+  async sendVerificationEmail(emailAddress: string): Promise<Message> {
     const transporter = this.getNodemailerTransport()
     const verificationCode = Math.floor(100000 + Math.random() * 900000)
     const timeStamp = Date.now() + 15 * 60000

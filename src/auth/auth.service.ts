@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
-import { IMessage } from 'src/common'
+import { Message } from 'src/common'
 import { UserService } from 'src/user/user.service'
-import { LoginDto, ResetPasswordDto } from './auth'
+import { LoginDto, LoginResponse, ResetPasswordDto } from './auth'
 import * as jwt from 'jsonwebtoken'
 import { Response } from 'express'
 import { InjectModel } from '@nestjs/mongoose'
@@ -112,7 +112,7 @@ export class AuthService {
     }
   }
 
-  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<IMessage> {
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<Message> {
     let user = null
     let verification = null
     try {
@@ -142,7 +142,10 @@ export class AuthService {
     return this.validateResetPassword(verification, resetPasswordDto, user)
   }
 
-  async login({ email, password }: LoginDto, res: Response): Promise<IMessage> {
+  async login(
+    { email, password }: LoginDto,
+    res: Response
+  ): Promise<LoginResponse> {
     const user = await this.userService.getUserByEmail(email)
     if (!user) {
       throw new HttpException('Authentication error', HttpStatus.UNAUTHORIZED)
@@ -161,9 +164,7 @@ export class AuthService {
           httpOnly: true
         })
         return {
-          message: 'Authentication successful',
-          token: accessToken,
-          status: HttpStatus.OK
+          token: accessToken
         }
       } else {
         this.logger.error(`Passwords do not match for user: ${user}`)

@@ -43,3 +43,8 @@ export class ResetPasswordDto {
   @MaxLength(16)
   newPassword: string
 }
+
+export class LoginResponse {
+  @ApiProperty()
+  token: string
+}

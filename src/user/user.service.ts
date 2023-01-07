@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { IUserDetails, User, UserDocument, UserDto } from './user'
-import { IMessage } from 'src/common'
+import { UserDetails, User, UserDocument, UserDto } from './user'
+import { Message } from 'src/common'
 import { generatePasswordHash } from 'src/utils'
 
 @Injectable()
@@ -24,7 +24,7 @@ export class UserService {
     return await this.userModel.findById(userId)
   }
 
-  async getUserDetails(userId: string): Promise<IUserDetails> {
+  async getUserDetails(userId: string): Promise<UserDetails> {
     let user: UserDocument = null
     try {
       user = await this.getUserById(userId)
@@ -52,7 +52,7 @@ export class UserService {
     lastName,
     email,
     password
-  }: UserDto): Promise<IMessage> {
+  }: UserDto): Promise<Message> {
     this.logger.log(
       `Creating new user with first name: ${firstName}, last name: ${lastName}, email: ${email}`
     )

@@ -6,11 +6,20 @@ import { ApiProperty } from '@nestjs/swagger'
 
 export type UserDocument = HydratedDocument<User>
 
-export interface IUserDetails {
+export class UserDetails {
+  @ApiProperty()
   firstName: string
+
+  @ApiProperty()
   lastName: string
+
+  @ApiProperty()
   email: string
+
+  @ApiProperty()
   createdTimestamp: number
+
+  @ApiProperty()
   lastLoginTimestamp: number
 }
 

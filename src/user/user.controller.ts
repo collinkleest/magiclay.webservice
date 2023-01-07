@@ -8,11 +8,18 @@ import {
   Post,
   Req
 } from '@nestjs/common'
+import {
+  ApiCreatedResponse,
+  ApiHeader,
+  ApiOkResponse,
+  ApiTags
+} from '@nestjs/swagger'
 import { Request } from 'express'
-import { IMessage } from 'src/common'
-import { IUserDetails, UserDto } from './user'
+import { Message } from 'src/common'
+import { UserDetails, UserDto } from './user'
 import { UserService } from './user.service'
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   private logger = new Logger('UserService')
@@ -20,12 +27,18 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('details')
-  getUserDetails(@Req() request: Request): Promise<IUserDetails> {
+  @ApiHeader({
+    name: 'authorization',
+    description: 'Authorization Access JWT'
+  })
+  @ApiOkResponse({ type: UserDetails })
+  getUserDetails(@Req() request: Request): Promise<UserDetails> {
     return this.userService.getUserDetails(request.body.userId)
   }
 
   @Post()
-  async createUser(@Body() userDto: UserDto): Promise<IMessage> {
+  @ApiCreatedResponse({ type: Message })
+  async createUser(@Body() userDto: UserDto): Promise<Message> {
     const isExistingUser = await this.userService.checkUserExistsByEmail(
       userDto.email
     )

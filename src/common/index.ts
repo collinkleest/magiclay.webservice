@@ -1,7 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
+import { ApiProperty } from '@nestjs/swagger'
 
-export interface IMessage {
+export class Message {
+  @ApiProperty()
   message: string
+
+  @ApiProperty()
   status: HttpStatus
-  token?: string
 }
