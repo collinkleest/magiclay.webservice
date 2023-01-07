@@ -14,6 +14,9 @@ export class UserDetails {
   lastName: string
 
   @ApiProperty()
+  userName: string
+
+  @ApiProperty()
   email: string
 
   @ApiProperty()
@@ -34,6 +37,12 @@ export class UserDto {
   @MinLength(8)
   @MaxLength(16)
   password: string
+
+  @ApiProperty({ minLength: 3, maxLength: 16 })
+  @IsNotEmpty()
+  @MinLength(3)
+  @MaxLength(16)
+  userName: string
 
   @ApiProperty({ maxLength: 35 })
   @IsNotEmpty()
@@ -61,6 +70,9 @@ export class User {
 
   @Prop({ required: true })
   lastName: string
+
+  @Prop({ required: true })
+  userName: string
 
   @Prop({ required: true, unique: true })
   email: string

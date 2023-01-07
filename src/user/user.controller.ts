@@ -39,14 +39,26 @@ export class UserController {
   @Post()
   @ApiCreatedResponse({ type: Message })
   async createUser(@Body() userDto: UserDto): Promise<Message> {
-    const isExistingUser = await this.userService.checkUserExistsByEmail(
+    const isExistingEmail = await this.userService.checkUserExistsByEmail(
       userDto.email
     )
 
-    if (isExistingUser) {
+    const isExistingUserName = await this.userService.checkUserExistsByUserName(
+      userDto.userName
+    )
+
+    if (isExistingEmail) {
       this.logger.log(`User already exists for email ${userDto.email}`)
       throw new HttpException(
         'Email already exists please sign in',
+        HttpStatus.BAD_REQUEST
+      )
+    }
+
+    if (isExistingUserName) {
+      this.logger.log(`Username already exists: ${userDto.userName}`)
+      throw new HttpException(
+        'Username already exists please choose another username',
         HttpStatus.BAD_REQUEST
       )
     }

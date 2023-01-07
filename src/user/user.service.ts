@@ -16,6 +16,11 @@ export class UserService {
     return !!user
   }
 
+  async checkUserExistsByUserName(userName: string): Promise<boolean> {
+    const user = await this.userModel.findOne({ userName })
+    return !!user
+  }
+
   async getUserByEmail(email: string): Promise<UserDocument> {
     return await this.userModel.findOne({ email })
   }
@@ -41,6 +46,7 @@ export class UserService {
     return {
       firstName: user.firstName,
       lastName: user.lastName,
+      userName: user.userName,
       email: user.email,
       createdTimestamp: user.createdTimestamp,
       lastLoginTimestamp: user.lastLogin
@@ -50,11 +56,12 @@ export class UserService {
   async createNewUser({
     firstName,
     lastName,
+    userName,
     email,
     password
   }: UserDto): Promise<Message> {
     this.logger.log(
-      `Creating new user with first name: ${firstName}, last name: ${lastName}, email: ${email}`
+      `Creating new user with first name: ${firstName}, last name: ${lastName}, email: ${email}, userName: ${userName}`
     )
     let passwordHash = null
     try {
@@ -77,6 +84,7 @@ export class UserService {
     const userModel = new this.userModel({
       firstName: firstName,
       lastName: lastName,
+      userName: userName,
       email: email,
       password: passwordHash,
       createdTimestamp: currentTimestamp
