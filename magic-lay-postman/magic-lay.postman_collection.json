@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "2147d717-db4d-48ea-99c7-7981fc90a714",
+		"name": "magic-lay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7953913"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"collinkleest@gmail.com\",\n    \"password\": \"password123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{magiclay-url}}/auth/login",
+							"host": [
+								"{{magiclay-url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"collinkleest@gmail.com\",\n    \"newPassword\": \"password1234!\",\n    \"code\": 933454\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{magiclay-url}}/auth/reset-password",
+							"host": [
+								"{{magiclay-url}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "verification",
+			"item": [
+				{
+					"name": "generate-code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"collinkleest@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{magiclay-url}}/verification/generate-code",
+							"host": [
+								"{{magiclay-url}}"
+							],
+							"path": [
+								"verification",
+								"generate-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"email\": \"collinkleest@gmail.com\",\n    \"code\": 849770\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{magiclay-url}}/verification/verify",
+							"host": [
+								"{{magiclay-url}}"
+							],
+							"path": [
+								"verification",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"collinkleest@gmail.com\",\n    \"password\": \"password123!\",\n    \"firstName\": \"Collin\",\n    \"lastName\": \"Kleest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{magiclay-url}}/user",
+							"host": [
+								"{{magiclay-url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNvbGxpbmtsZWVzdEBnbWFpbC5jb20iLCJ1c2VySWQiOiI2M2I4ZGYwNTI0ZGEwZWRhNjAyOWQ4YTgiLCJpYXQiOjE2NzMwNjUzMjksImV4cCI6MTY3MzA2NjUyOX0.dMttOjM2mO100Fwljfl2XYvZn-70DCyPAOOl6_auW8s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{magiclay-url}}/user/details",
+							"host": [
+								"{{magiclay-url}}"
+							],
+							"path": [
+								"user",
+								"details"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
