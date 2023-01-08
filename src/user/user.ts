@@ -3,8 +3,20 @@ import mongoose, { HydratedDocument } from 'mongoose'
 import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator'
 import { Verification } from '../verification/verification'
 import { ApiProperty } from '@nestjs/swagger'
+import { Group } from 'src/group/group'
 
 export type UserDocument = HydratedDocument<User>
+
+export class UserDetail {
+  @ApiProperty()
+  userName: string
+
+  @ApiProperty()
+  firstName: string
+
+  @ApiProperty()
+  lastName: string
+}
 
 export class UserDetails {
   @ApiProperty()
@@ -91,6 +103,12 @@ export class User {
 
   @Prop({ required: false })
   lastLogin: number
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Group' }],
+    required: false
+  })
+  groups: Group[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

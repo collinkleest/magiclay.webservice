@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Logger,
+  Param,
   Post,
   Req
 } from '@nestjs/common'
@@ -34,6 +35,11 @@ export class UserController {
   @ApiOkResponse({ type: UserDetails })
   getUserDetails(@Req() request: Request): Promise<UserDetails> {
     return this.userService.getUserDetails(request.body.userId)
+  }
+
+  @Get(':userId')
+  async getUser(@Param('userId') userId: string) {
+    return await this.userService.getUser(userId)
   }
 
   @Post()

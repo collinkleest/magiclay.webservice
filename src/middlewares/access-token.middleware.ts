@@ -7,6 +7,13 @@ import {
 } from '@nestjs/common'
 import * as jwt from 'jsonwebtoken'
 
+export interface IJwtPayload {
+  email: string
+  userId: string
+  iat: number
+  exp: number
+}
+
 @Injectable()
 export class AccessTokenMiddleware implements NestMiddleware {
   private logger = new Logger('UserService')
@@ -15,8 +22,12 @@ export class AccessTokenMiddleware implements NestMiddleware {
     if (authHeader) {
       const token = authHeader.split(' ')[1]
       try {
-        const decoded = jwt.verify(token, process.env.ACCESS_JWT_SECRET)
-        req.body = decoded
+        const decoded = jwt.verify(
+          token,
+          process.env.ACCESS_JWT_SECRET
+        ) as IJwtPayload
+        req.body.email = decoded.email
+        req.body.userId = decoded.userId
       } catch (error) {
         this.logger.error(`Access token is invalid because: ${error}`)
         throw new HttpException(
