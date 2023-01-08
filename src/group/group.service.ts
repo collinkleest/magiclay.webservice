@@ -25,7 +25,7 @@ export class GroupService {
 
   async isUserInGroup(userId: string, groupId: string): Promise<boolean> {
     const group = await this.getGroupById(groupId)
-    for (const member of group.members){ 
+    for (const member of group.members) {
       if (member._id.toString() == userId) {
         return true
       }
